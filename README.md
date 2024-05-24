@@ -4,4 +4,6 @@ I'll try to keep my code well documented so everything's clear, but just know th
 
 Also, I have a few different conda environments that I use. I've included a directory where you can find my different .yml files if you'd like to recreate my environments.
 
+Lastly, you must run source setup.sh before anything else
+
 Thanks for reading!
