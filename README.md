@@ -2,6 +2,6 @@ Hello! This is all my data science stuff. If one of my projects becomes large en
 
 I'll try to keep my code well documented so everything's clear, but just know that there are some unrelated things in here from cheminformatics to NLP to CV, etc.
 
-ALso, I have a few different conda environments that I use. I've included a directory where you can find my different YAML files.
+Also, I have a few different conda environments that I use. I've included a directory where you can find my different .yml files if you'd like to recreate my environments.
 
 Thanks for reading!
