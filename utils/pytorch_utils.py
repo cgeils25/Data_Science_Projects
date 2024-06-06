@@ -10,12 +10,17 @@ import copy
 
 
 class ImmuneCellImageDataset(Dataset):
+    """Dataset class for immune cell images
+
+    Args:
+        Dataset (_type_): _description_
+    """
     def __init__(self, img_paths: list, class_map: dict, transform=None, device=torch.device('cpu')):
         self.img_paths=img_paths
-        self.class_map=class_map
-        self.transform=transform
+        self.class_map=class_map # maps class names to tensor labels
+        self.transform=transform # specifies image transformations
         self.device = device
-        self.unique_labels=list(class_map.values())
+        self.unique_labels=list(class_map.values()) 
         
     def __getitem__(self, idx):
         # get image path with index
@@ -39,9 +44,8 @@ class ImmuneCellImageDataset(Dataset):
 
     def show_image(self, idx):
         """
-        shows image at given idx  ** without transformations
+        shows image at given idx without transformations
         """
-        
         # get image path with index
         img_path = self.img_paths[idx]
 
@@ -54,7 +58,10 @@ class ImmuneCellImageDataset(Dataset):
         plt.title(f'Cell Type: {img_class}, Idx: {idx}')
 
     def immune_cell_counts(self):
-        cell_type_counts = {cell_type: 0 for cell_type, _ in self.class_map.items()}  # getting cell types from class map because I'm lazy
+        """
+        Get counts of each immune cell type in the dataset, return as dict
+        """
+        cell_type_counts = {cell_type: 0 for cell_type in self.class_map.items()}  # getting cell types from class map because I'm lazy
 
         for img_path in self.img_paths:
             img_cell_type = img_path.split('/')[-2]
@@ -67,11 +74,11 @@ def classification_accuracy(dataloader, model):
     """_summary_
 
     Args:
-        dataloader (_type_): _description_
-        model (_type_): _description_
+        dataloader (torch.utils.data.DataLoader): pytorch dataloader object
+        model (torch.nn.Module): pytorch model object
 
     Returns:
-        _type_: _description_
+        p_correct (float): proportion of correct predictions
     """
     # set model to evaluation mode
     model.eval()
@@ -96,6 +103,18 @@ def classification_accuracy(dataloader, model):
 
 
 def validate_classification_model(dataloader, model, loss_fn, device):
+    """Validate a classification model on a given dataset, return both mean loss and class-specific losses
+
+    Args:
+        dataloader (torch.utils.data.DataLoader): a pytorch dataloader object
+        model (torch.nn.Module): a pytorch model object
+        loss_fn (torch.optim): a pytorch loss function object
+        device (torch.device): a pytorch device object
+
+    Returns:
+        mean_validation_loss (float): mean loss across all batches
+        losses_for_unique_labels (dict): dictionary of losses for each unique label
+    """
     # set model to evaluation mode
     model.eval()
     
@@ -155,15 +174,25 @@ def validate_classification_model(dataloader, model, loss_fn, device):
 
 
 def train_one_epoch(dataloader, model, loss_fn, optimizer, device):
+    """Train a PyTorch model for one epoch on a given dataloader
+
+    Args:
+        dataloader (torch.utils.data.DataLoader): a pytorch dataloader object
+        model (torch.nn.Module): a pytorch model object
+        loss_fn (torch.optim): a pytorch loss function object
+        optimizer (torch.optim): a pytorch optimizer object
+        device (torch.device): a pytorch device object
+
+    Returns:
+        last_loss (float): loss for the last batch
+    """
+    
     # set model to train mode
     model.train()
     
     running_loss = 0.
     last_loss = 0.
     
-    # Here, we use enumerate(training_loader) instead of
-    # iter(training_loader) so that we can track the batch
-    # index and do some intra-epoch reporting
     for batch_idx, batch in enumerate(iter(dataloader)):
         # Every data instance is an input + label pair
         batch_inputs, batch_labels = batch
