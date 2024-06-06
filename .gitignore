@@ -1,5 +1,14 @@
-# created by virtualenv automatically
-
 .ipynb_checkpoints/*
 venv/*
 .idea
+*/.ipynb_checkpoints/*
+*/__pycache__/*
+*.ipynb_checkpoints
+*/.idea/*
+*/.vscode/*
+*/.pytest_cache/*
+*/.mypy_cache/*
+*/.coverage/*
+models
+.DS_Store
+*/.DS_Store
