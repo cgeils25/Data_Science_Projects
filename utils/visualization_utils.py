@@ -6,7 +6,7 @@ import numpy as np
 
 def visualize_confusion_matrix(plot_title='Confusion Matrix', y_test=None, y_out=None):
     """
-    Displays confusion matrix for classification problem
+    Displays confusion matrix for classification model
 
     :param plot_title: title to be added to plot
     :param y_test: target output data
