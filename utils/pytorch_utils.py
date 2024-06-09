@@ -10,12 +10,15 @@ import copy
 
 
 class ImmuneCellImageDataset(Dataset):
-    """Dataset class for immune cell images
-
-    Args:
-        Dataset (_type_): _description_
-    """
     def __init__(self, img_paths: list, class_map: dict, transform=None, device=torch.device('cpu')):
+        """
+        Pytorch Dataset object for immune cell image data.
+        Args:
+            img_paths (list): _description_
+            class_map (dict): _description_
+            transform (torchvision.transforms.v2.Compose): torchvision Compose object, specifying image transformations. Defaults to None.
+            device (torch.device, optional): pytorch device to load data onto. Defaults to torch.device('cpu').
+        """
         self.img_paths=img_paths
         self.class_map=class_map # maps class names to tensor labels
         self.transform=transform # specifies image transformations
@@ -71,7 +74,8 @@ class ImmuneCellImageDataset(Dataset):
     
 
 def classification_accuracy(dataloader, model):
-    """_summary_
+    """Compute the proportion of correct predictions for a given model on a given dataset.
+    Outputs are considered correct if the model's highest output index matches the target label.
 
     Args:
         dataloader (torch.utils.data.DataLoader): pytorch dataloader object
