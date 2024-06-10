@@ -13,6 +13,7 @@ class ImmuneCellImageDataset(Dataset):
     def __init__(self, img_paths: list, class_map: dict, transform=None, device=torch.device('cpu')):
         """
         Pytorch Dataset object for immune cell image data.
+        Should be pretty easy to extend this to other image datasets ¯\_(ツ)_/¯
         Args:
             img_paths (list): _description_
             class_map (dict): _description_
@@ -110,7 +111,7 @@ def validate_classification_model(dataloader, model, loss_fn, device):
     """Validate a classification model on a given dataset, return both mean loss and class-specific losses
 
     Args:
-        dataloader (torch.utils.data.DataLoader): a pytorch dataloader object
+        dataloader (torch.utils.data.DataLoader): a pytorch dataloader object. Must have a dataset attribute with unique_labels: list(torch.Tensor)
         model (torch.nn.Module): a pytorch model object
         loss_fn (torch.optim): a pytorch loss function object
         device (torch.device): a pytorch device object
