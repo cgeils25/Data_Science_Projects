@@ -15,8 +15,8 @@ class ImmuneCellImageDataset(Dataset):
         Pytorch Dataset object for immune cell image data.
         Should be pretty easy to extend this to other image datasets ¯\_(ツ)_/¯
         Args:
-            img_paths (list): _description_
-            class_map (dict): _description_
+            img_paths (list): list of image file paths
+            class_map (dict(str: torch.Tensor)): maps class names to tensor labels
             transform (torchvision.transforms.v2.Compose): torchvision Compose object, specifying image transformations. Defaults to None.
             device (torch.device, optional): pytorch device to load data onto. Defaults to torch.device('cpu').
         """
