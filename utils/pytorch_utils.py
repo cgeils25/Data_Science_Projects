@@ -178,7 +178,7 @@ def validate_classification_model(dataloader, model, loss_fn, device):
     return mean_validation_loss, losses_for_unique_labels
 
 
-def train_one_epoch(dataloader, model, loss_fn, optimizer, device):
+def train_one_epoch(dataloader, model, loss_fn, optimizer):
     """Train a PyTorch model for one epoch on a given dataloader
 
     Args:
@@ -186,7 +186,6 @@ def train_one_epoch(dataloader, model, loss_fn, optimizer, device):
         model (torch.nn.Module): a pytorch model object
         loss_fn (torch.optim): a pytorch loss function object
         optimizer (torch.optim): a pytorch optimizer object
-        device (torch.device): a pytorch device object
 
     Returns:
         last_loss (float): loss for the last batch
