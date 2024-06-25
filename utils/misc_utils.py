@@ -18,6 +18,8 @@ class Timer:
       start(): starts the timer
       lap(lap_name): adds a lap to the timer. If no name is provided, a default name is used
       get_times_dict(): returns a dictionary of the times
+      average_time(): returns the average time of all laps on the timer
+      total_time(): returns the total time of all laps on the timer
       remove_last(): removes the last lap from the timer
       clear(): clears all laps from the timer
       view(): plots the times
@@ -77,6 +79,12 @@ class Timer:
         Returns a dictionary of the times.
         """
         return self.times_dict
+    
+    def average_time(self):
+        """
+        Returns the average time of all laps on the timer.
+        """
+        return sum(self.times_dict['lap_time']) / len(self.times_dict['lap_time'])
     
     def total_time(self):
         """
