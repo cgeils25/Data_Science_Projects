@@ -13,7 +13,7 @@ class ImmuneCellImageDataset(Dataset):
     def __init__(self, img_paths: list, class_map: dict, transform=None, device=torch.device('cpu')):
         """
         Pytorch Dataset object for immune cell image data.
-        Should be pretty easy to extend this to other image datasets ¯\_(ツ)_/¯
+        Should be pretty easy to extend this to other image datasets 
         Args:
             img_paths (list): list of image file paths
             class_map (dict(str: torch.Tensor)): maps class names to tensor labels
@@ -225,3 +225,21 @@ def train_one_epoch(dataloader, model, loss_fn, optimizer):
             running_loss = 0.
 
     return last_loss
+
+def freeze_all_model_layers_except_fc(model):
+    """Freeze all pytorch model layers except the fully connected layer
+
+    Args:
+        model (torch.nn.Module): a pytorch model object
+    """
+    assert hasattr(model, 'fc'), 'model must have "fc" layer'
+    
+    # freeze all layers 
+    for param in model.parameters():
+        param.requires_grad = False
+
+    # unfreeze fc layer
+    for param in model.fc.parameters():
+        param.requires_grad = True
+
+    print("All model layers except fc frozen successfully") 
