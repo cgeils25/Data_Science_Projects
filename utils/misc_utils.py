@@ -17,7 +17,7 @@ class Timer:
     Methods:
       start(): starts the timer
       lap(lap_name): adds a lap to the timer. If no name is provided, a default name is used
-      get_times_dict(): returns a dictionary of the times
+      get_laps(): returns a dictionary of the lap times
       average_time(): returns the average time of all laps on the timer
       total_time(): returns the total time of all laps on the timer
       remove_last(): removes the last lap from the timer
@@ -67,14 +67,14 @@ class Timer:
             self.default_lap_count += 1
             self.default_lap_name = f'unnamed_lap_{self.default_lap_count}'
 
-        self.times_dict['lap_name'].append(lap_name)
+        self.times_dict['lap_name'].append(str(lap_name))
 
         lap_time = self.time.time() - self.start_time
         self.times_dict['lap_time'].append(lap_time)
         self.start_time = self.time.time()
-        print(f"{lap_name}: {lap_time}")
+        print(f"{lap_name}: {lap_time} seconds")
 
-    def get_times_dict(self):
+    def get_laps(self):
         """
         Returns a dictionary of the times.
         """
@@ -98,13 +98,17 @@ class Timer:
         """
         removed_name = self.times_dict['lap_name'].pop()
         removed_lap = self.times_dict['lap_time'].pop()
-        print(f"Removed {removed_name}: {removed_lap}")
+        print(f"Removed {removed_name}: {removed_lap} seconds")
         del removed_name, removed_lap
 
     def clear(self):
         """
         Clears all laps from the timer.
         """
+        if not self.times_dict['lap_name']:
+            print("No laps to clear")
+            return
+        
         self.times_dict['lap_name'] = []
         self.times_dict['lap_time'] = []
         print("Cleared all laps")
@@ -113,8 +117,13 @@ class Timer:
         """
         Plots the times.
         """
+        if not self.times_dict['lap_name']:
+            print("No times to view")
+            return
+        
         fig = self.plt.figure(figsize=(10, 6))
         self.sns.barplot(x='lap_name', y='lap_time', data=self.times_dict, palette='pastel', hue='lap_name')
+        fig.show()
 
     def save(self, filename):
         """
@@ -123,6 +132,10 @@ class Timer:
         Parameters:
           filename (str): the name of the file to save to
         """
+        if not self.times_dict['lap_name']:
+            print("No times to save")
+            return
+        
         df = self.pd.DataFrame(self.times_dict)
         df.to_csv(filename, index=False)
         print(f"Saved times to {filename}")
