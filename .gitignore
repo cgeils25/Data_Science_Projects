@@ -14,3 +14,4 @@ models
 */.DS_Store
 *.ipynb_checkpoints
 notebooks/nlp/iframe_figures
+notebooks/nlp/accuracy_for_all_medical_abstract_classification_models
