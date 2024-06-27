@@ -3,6 +3,7 @@ from datetime import datetime
 class date_n_time():
     """
     Class to get current date and time in the format: dd_mm_yyyy_hh_mm_ss
+    Note: really could just use time.asctime().replace(" ", "_"), it will look better
     """
     def __init__(self):
         self.time_now = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
@@ -16,6 +17,7 @@ class Timer:
 
     Methods:
       start(): starts the timer
+      stop(): stops the timer
       lap(lap_name): adds a lap to the timer. If no name is provided, a default name is used
       get_laps(): returns a dictionary of the lap times
       average_time(): returns the average time of all laps on the timer
@@ -55,6 +57,12 @@ class Timer:
         """
         self.start_time = self.time.time()
 
+    def stop(self):
+        """
+        Stops the timer.
+        """
+        self.start_time = 0
+
     def lap(self, lap_name=None):
         """
         Adds a lap to the timer.
@@ -80,6 +88,15 @@ class Timer:
         """
         return self.times_dict
     
+    def get_time(self):
+        """
+        Returns the time since the timer was started.
+        """
+        if self.start_time == 0:
+            print("Timer not started")
+            return
+        return self.time.time() - self.start_time
+    
     def average_time(self):
         """
         Returns the average time of all laps on the timer.
@@ -103,7 +120,7 @@ class Timer:
 
     def clear(self):
         """
-        Clears all laps from the timer.
+        Clears all data from the timer.
         """
         if not self.times_dict['lap_name']:
             print("No laps to clear")
@@ -111,6 +128,9 @@ class Timer:
         
         self.times_dict['lap_name'] = []
         self.times_dict['lap_time'] = []
+        self.default_lap_count = 0
+        self.default_lap_name = f'unnamed_lap_{self.default_lap_count}'
+        self.start_time = 0
         print("Cleared all laps")
 
     def view(self):
